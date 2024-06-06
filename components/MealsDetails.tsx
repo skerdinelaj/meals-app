@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import {  StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import React from "react";
 
 type MealsDetailsProps = {

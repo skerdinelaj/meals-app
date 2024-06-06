@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoriesScreen from "./CategoriesScreen";
@@ -46,6 +46,12 @@ const Root = () => {
         <Stack.Screen
           name="DetailsMealScreen"
           component={DetailsMealScreen}
+          options={{
+            headerRight: () => {
+              return <Button title="Tap me!"></Button>;
+            }
+
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
