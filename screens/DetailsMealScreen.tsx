@@ -1,5 +1,4 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useContext } from "react";
 import { DetailsMealScreenNavigationProps, DetailsMealScreenRouteProp } from "./navigationType";
 import { MEALS } from "../data/dummy-data";
 import MealsDetails from "../components/MealsDetails";
@@ -7,7 +6,10 @@ import Subtitle from "../components/MealDetal/Subtitle";
 import List from "../components/MealDetal/List";
 import { useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
-import { FavouritesContext } from "../store/context/favourites-context";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavourite, removeFavourite } from "../store/redux/favourites";
+//import { useContext } from "react";
+//import { FavouritesContext } from "../store/context/favourites-context";
 
 type DetailsMealScreenProps = {
   route: DetailsMealScreenRouteProp;
@@ -16,24 +18,39 @@ type DetailsMealScreenProps = {
 
 const DetailsMealScreen = ({ route, navigation }: DetailsMealScreenProps) => {
   const { mealId } = route.params;
-
-  const { addFavourite, removeFavourite, iconFavourite } = useContext(FavouritesContext);
-  const changeFavouriteStatus = () => {
-    if (iconFavourite) {
-      removeFavourite(mealId);
-    } else {
-      addFavourite(mealId);
-    }
-  };
   
+  //const { addFavourite, removeFavourite, iconFavourite } = useContext(FavouritesContext);
+  const iconToggle = useSelector((state: any) => state.favourites.iconToggle);
+  
+  const dispatch = useDispatch();
+  const changeFavouriteStatus = () => {
+    if (iconToggle) {
+      dispatch(removeFavourite(mealId));
+    }else{
+      dispatch(addFavourite(mealId));
+    }
+    // if (iconFavourite) {
+    //   removeFavourite(mealId);
+    // } else {
+    //   addFavourite(mealId);
+    // }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <IconButton icon="star" color={iconFavourite ? "yellow" : "white"} onPress={changeFavouriteStatus} />;
+        return <IconButton icon="star" color={iconToggle ? "yellow" : "white"} onPress={changeFavouriteStatus} />;
       },
     });
-  }, [navigation, changeFavouriteStatus, iconFavourite]);
+  }, [navigation, changeFavouriteStatus, iconToggle]);
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return <IconButton icon="star" color={iconFavourite ? "yellow" : "white"} onPress={changeFavouriteStatus} />;
+  //     },
+  //   });
+  // }, [navigation, changeFavouriteStatus, iconFavourite]);
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId)!;
   const {
