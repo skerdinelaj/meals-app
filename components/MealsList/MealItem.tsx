@@ -7,8 +7,8 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { DetailsMealScreenNavigationProps } from "../screens/navigationType";
-import MealsDetails from "./MealsDetails";
+import { DetailsMealScreenNavigationProps } from "../../screens/navigationType";
+import MealsDetails from "../MealsDetails";
 
 type MealItemProps = {
   title: string;
